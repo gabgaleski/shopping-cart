@@ -24,4 +24,9 @@ describe('Teste a função fetchProductsList', () => {
     const undefined = fetchProductsList();
     await expect(undefined).rejects.toThrow('Termo de busca não informado');
   }) 
+
+  it('Se a função fetchProductsList retorna o array de produtos da API', async () => {
+    const result = await fetchProductsList('computador');
+    expect(Array.isArray(result)).toBe(true)
+  });
 });
