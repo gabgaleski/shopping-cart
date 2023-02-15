@@ -7,6 +7,13 @@ const products = document.querySelector('.products');
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 
+const errorMesage = () => {
+  const createElement = document.createElement('p');
+  createElement.className = 'error';
+  createElement.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
+  products.appendChild(createElement);
+};
+
 async function listGenerate(component) {
   const array = await fetchProductsList(component);
   array.forEach((element) => {
@@ -21,7 +28,7 @@ async function createLoading() {
   loading.className = 'loading';
   loading.innerHTML = 'carregando...';
   products.appendChild(loading);
-  await listGenerate('computador');
+  await listGenerate('computador').catch(() => errorMesage());
   products.removeChild(loading);
 }
 
