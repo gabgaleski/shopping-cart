@@ -1,6 +1,7 @@
+import { getSavedCartIDs } from './helpers/cartFunctions';
 import { searchCep } from './helpers/cepFunctions';
-import { fetchProductsList } from './helpers/fetchFunctions';
-import { createProductElement } from './helpers/shopFunctions';
+import { fetchProductsList, fetchProduct } from './helpers/fetchFunctions';
+import { createProductElement, createCartProductElement } from './helpers/shopFunctions';
 import './style.css';
 
 const products = document.querySelector('.products');
@@ -32,6 +33,18 @@ async function createLoading() {
   products.removeChild(loading);
 }
 
+async function saveLocalStorage() {
+  const listCart = document.querySelector('.cart__products');
+  const getPromises = getSavedCartIDs().map((id) => fetchProduct(id));
+  const promises = await Promise.all(getPromises);
+  promises.forEach((promise) => {
+    const { id, title, price, pictures } = promise;
+    const element = createCartProductElement({ id, title, price, pictures });
+    listCart.appendChild(element);
+  });
+}
+
 window.onload = () => {
   createLoading();
+  saveLocalStorage();
 };
