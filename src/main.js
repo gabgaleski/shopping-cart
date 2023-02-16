@@ -33,6 +33,12 @@ async function createLoading() {
   products.removeChild(loading);
 }
 
+const storagePrice = () => {
+  const totalPrice = document.querySelector('.total-price');
+  const result = localStorage.getItem('TotalPrice');
+  totalPrice.innerHTML = result;
+};
+
 async function saveLocalStorage() {
   const listCart = document.querySelector('.cart__products');
   const getPromises = getSavedCartIDs().map((id) => fetchProduct(id));
@@ -42,6 +48,7 @@ async function saveLocalStorage() {
     const element = createCartProductElement({ id, title, price, pictures });
     listCart.appendChild(element);
   });
+  storagePrice();
 }
 
 window.onload = () => {
